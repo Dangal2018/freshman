@@ -35,10 +35,8 @@ for(t=1;t<=10;t++)
 		printf("you got it!\n");
 		break;
 	}
-	else
-	{
-		printf("the correct answer is %d\n",r);
-	}
 }
-return 0;
+    if(t==11)
+		printf("the correct answer is %d\n",r);
+        return 0;
 }
