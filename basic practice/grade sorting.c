@@ -3,7 +3,7 @@
 int main()
 {
     int a[N],i,j,k,m=0,t;
-    /*输入所有学生成绩（input all of students' grade*/
+    /*输入所有学生成绩（input all of students' grade* /
 	do{
 		printf("please input student's point a[%d]=",i);
 		scanf("%d",&a[i]);
