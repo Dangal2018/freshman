@@ -1,7 +1,7 @@
 #include<stdio.h>
 #define N 10
 int average()
-{
+{ 
 	int i,a[N],sum=0;
 	float average=0;
 	for(i=0;i<N;i++){
