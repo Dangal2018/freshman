@@ -4,9 +4,10 @@
 #include<time.h>
 int main()
 {
-int r,n,t;
+int r,n,t;/* 随机数，你输入的数字，次数 （r=random number n=the number you will input next t=times*/
 srand(time(0));
 r=rand()%100+1;
+/* 产生随机数，范围在[1,100] (produce a random number,range for[1,100])*/
 for(t=1;t<=10;t++)
 {
 	printf("please input n,range for a is[1,100]\n");
