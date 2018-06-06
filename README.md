@@ -1,2 +1,2 @@
-# freshman
-记录大一写的代码(Record the code I wrote in my freshman year)
+洛谷上AC了的的题目
+题号都已标注
