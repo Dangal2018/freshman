@@ -35,7 +35,7 @@ int income,tax;
 	}
 	else if(income>=58500&&income<83500)
 	{
-		0.35*(income-3500)-5505;
+		tax=0.35*(income-3500)-5505;
 		printf("tax:%d",tax);
 	}
 	else{
