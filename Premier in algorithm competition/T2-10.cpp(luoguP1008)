@@ -1,0 +1,48 @@
+#include <iostream>
+using namespace std;
+int main()
+{
+    int a,b,c,d,e,f,g,h,i,j;
+    int ch,count;
+   for(j=100;j<=333;j++)
+   {
+       a = j/100;
+       b = j%100/10;
+       c = j%10;
+       d = 2*j/100;
+       e = 2*j%100/10;
+       f = 2*j%10;
+       g = 3*j/100;
+       h = 3*j%100/10;
+       i = 3*j%10;
+       if(a*b*c*d*e*f*g*h*i==0)
+            continue;
+       for(ch = 1;ch <10;ch++)
+       {
+           count = 0;
+           if(a==ch)
+                count++;
+           if(b==ch)
+                count++;
+            if(c==ch)
+                count++;
+            if(d==ch)
+                count++;
+            if(e==ch)
+                count++;
+            if(f==ch)
+                count++;
+            if(g==ch)
+                count++;
+            if(h==ch)
+                count++;
+            if(i==ch)
+                count++;
+            if(count!=1)
+                    break;
+       }
+       if(ch==10)
+            cout<<j<<' '<<2*j<<' '<<3*j<<endl;
+   }
+   return 0;
+}
