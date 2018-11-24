@@ -1,0 +1,75 @@
+*{
+	font-size: 12px;
+}
+body{
+	margin: 0px;
+	padding: 0px;
+}
+.main{
+	width: 840px;
+	height: 700px;
+	border: gray 1px solid;
+	margin: auto;
+}
+.header{
+	width: 440px;
+	height: 65px;
+	background-image: url(../img/logo.gif);
+	background-repeat: no-repeat;
+	background-position-x: 20px;
+	background-position-y: 20px;
+	padding-left: 400px;
+	padding-top: 20px;
+}
+.header input{
+	width=80px;
+}
+.banner{
+	width 840px;
+	height: 323px;
+}
+.menu{
+	width:840px;
+	height: 34px;
+}
+.menu a{
+	text-decoration: none;
+	color: black;
+	background-image: url(../img/menu_bg.gif);
+	width: 130px;
+	height: 34px;
+	display: block;
+	float: left;
+	margin-left: 5px;
+	text-align: center;
+	line height: 34px;
+}
+.menu a:hover{
+	color: blue;
+}
+.contact1{
+	background-image: url(../img/contact_bg.gif);
+	width: 250px;
+	height: 150px;
+	line height:150px;
+	display: block;
+	float: left;
+	
+}
+.contact2{
+	background-image: url(../img/contact_bg.gif);
+	width: 250px;
+	height: 150px;
+	line height:150px;
+	display: block;
+	float: left;
+	margin-right: 10px;
+}
+.contact3{
+	background-image: url(../img/product.gif);
+	background-position-x:545px ;
+	background-position-x:545px ;
+	
+	width:330px;
+	height: 155px;
+}
