@@ -1,0 +1,465 @@
+//#include<stdio.h>
+//#include<string.h>
+//#include<stdlib.h>
+#include<bits/stdc++.h>
+using namespace std;
+struct Student
+{
+     char ID[100];
+     char Name[100];
+     float Mark1;
+     float Mark2;
+     float Mark3;
+     float Mark4;
+	 float Sum; 
+     float Average;
+};
+struct Student students[1000];
+int num=0;
+float Sum(struct Student stu)
+{
+	return stu.Mark1+stu.Mark2+stu.Mark3+stu.Mark4; 
+} 
+float Avg(struct Student stu)
+{
+     return (stu.Mark1+stu.Mark2+stu.Mark3+stu.Mark4)/4;
+}
+int Student_SearchByIndex(char id[])
+{
+     int i;
+     //int num=0;
+     for (i=0;i<num;i++)
+     {
+         if (strcmp(students[i].ID,id)==0)
+         {
+              return i;
+         }
+     }
+     return -1;
+}
+int Student_SearchByName(char name[])
+{
+     int i;
+     //int num=0;
+     for (i=0;i<num;i++)
+     {
+         if (strcmp(students[i].Name,name)==0)
+         {
+              return i;
+         }
+     }
+     return -1;
+}
+void Student_DisplaySingle(int index)
+{
+     printf("%10s%10s%8s%8s%8s%8s%10s%16s\n","Student ID","Name"," Mark1 "," Mark2 "," Mark3 ","Mark4","Total"," Average Mark ");
+     cout<<"-----------------------------------------------------------------------------------------------"<<endl;
+     printf("%10s%10s%8.2f%8.2f%8.2f%8.2f%10.2f%10.2f\n",students[index].ID,students[index].Name,
+              students[index].Mark1,students[index].Mark2,students[index].Mark3,students[index].Mark4,students[index].Sum,students[index].Average);
+}
+void System_Reset()
+{
+	cout<<"Do you really want to reset the system?(y/n)";
+	if(getchar()=='y')
+	{
+		FILE *fp;
+    char filename[100];  //文件名 
+    char tempstr[1024];  //读文件的缓冲 
+    cout<<"please input your file path,eg:c:\\temp.txt"<<endl;
+    cin>>filename; //这句要用户输入文件名 
+    if ((fp=fopen(filename,"r"))==NULL){//打开文件，并判断是否有打开错误
+        cout<<"open "<<filename<<" error";
+        return ;
+    }  
+    //以下显示文件内容
+    while(fgets(tempstr,1024,fp)!=NULL) //读文件一行内容，最多1024字符到缓冲区，并判断是否文件已经结束 
+    cout<<tempstr;  //显示缓冲区内容 
+    for(int i=0;i<1000;i++)
+    {
+    	fscanf(fp,"%10s%10s%8.2f%8.2f%8.2f%8.2f%10.2f%10.2f\n",&students[i].ID,&students[i].Name,
+              &students[i].Mark1,&students[i].Mark2,&students[i].Mark3,&students[i].Mark4,&students[i].Sum,&students[i].Average);
+	}
+    fclose(fp);  //关闭文件 
+	}
+}
+void Student_Insert()
+{
+	//int num=0;
+     while(1)
+     {
+         cout<<"Please input Student ID:";
+         cin>>students[num].ID;
+         getchar();
+cout<<"Please input name:";
+         cin>>students[num].Name;
+         getchar();
+cout<<"Please input mark1:";
+         cin>>students[num].Mark1;
+         getchar();
+cout<<"Please input mark2:";
+         cin>>students[num].Mark2;
+         getchar();
+cout<<"Please input mark3:";
+         cin>>students[num].Mark3;
+         getchar();
+         cout<<"Please input mark4:";
+         cin>>students[num].Mark4;
+         getchar();
+         students[num].Sum=Sum(students[num]);
+		 students[num].Average=Avg(students[num]);
+         num++; 
+cout<<"Continue?(y/n)";
+
+         if (getchar()=='n')
+         {
+              break;
+         }
+     }
+}
+void Student_Modify()
+{
+     float mark1,mark2,mark3,mark4;
+     while(1)
+     {
+         char id[20];
+         int index;
+         //int num=0;
+         cout<<"Please input Student ID you want to modify:";
+         cin>>id;
+         getchar();
+         index=Student_SearchByIndex(id);
+         if (index==-1)
+         {
+              cout<<"Student non-existant!"<<endl;
+         }
+         else
+         {
+              cout<<"The message you want to modify is:"<<endl;
+              Student_DisplaySingle(index);
+              cout<<"-- Please input new message--"<<endl;
+              cout<<"please input Student ID:";
+              cin>>students[index].ID;
+              getchar();
+              cout<<"Please input name:";
+              cin>>students[index].Name;
+              getchar();
+              cout<<"please input mark 1:";
+              cin>>students[index].Mark1;
+              getchar();
+              cout<<"Please input mark 2:";
+              cin>>students[index].Mark2;
+              getchar();
+              cout<<"Please input mark 3:";
+              cin>>students[index].Mark3;
+              cout<<"Please input mark 4:";
+              cin>>students[index].Mark4;
+              getchar();
+              students[index].Sum=Sum(students[index]);
+              students[index].Average=Avg(students[index]);
+         }
+         printf("Continue?(y/n)");
+         if (getchar()=='n')
+         {
+              break;
+         }
+     }
+}
+void Student_Delete()
+{
+     int i;
+     while(1)
+     {
+         char id[200];
+         int index;
+         //int num=0;
+         cout<<"Please input the Student ID you want to delete:";
+         cin>>id;
+         getchar();
+         index=Student_SearchByIndex(id);
+         if (index==-1)
+         {
+              cout<<"Student non-existant!"<<endl;
+         }
+         else
+         {
+              cout<<"the deleted student's message is:"<<endl;
+              Student_DisplaySingle(index);
+              cout<<"Do you really want to delete it?(y/n)";
+              if (getchar()=='y')
+              {
+                   for (i=index;i<num-1;i++)
+                   {
+                       students[i]=students[i+1];
+                   }
+                   num--;
+              }
+              getchar();
+         }
+         cout<<"continue?(y/n)";
+         if (getchar()=='n')
+         {
+              break;
+         }
+     }
+}
+void Student_Select()
+{
+     while(1)
+     { 
+         char name[20];
+         int index;
+         //int num=0;
+         cout<<"please input student's name:";
+         cin>>name;
+         getchar();
+         index=Student_SearchByName(name);
+         if (index==-1)
+         {
+              cout<<"student is non-existant"<<endl;
+         }
+         else
+         {
+              cout<<"the student's message you search is:"<<endl;
+              Student_DisplaySingle(index);
+         }
+         cout<<"continue?(y/n)";
+         if (getchar()=='n')
+         {
+              break;
+         }
+     }
+}
+void Student_SortByAverage()
+{
+     int i,j;
+     //int num=0;
+     struct Student tmp;
+     for (i=0;i<num;i++)
+     {
+         for (j=1;j<num-i;j++)
+         {
+              if (students[j-1].Average<students[j].Average)
+              {
+                   tmp=students[j-1];
+                   students[j-1]=students[j];
+                   students[j]=tmp;
+              }
+         }
+     }
+}
+void Student_SortBySum()
+{
+     int i,j;
+     //int num=0;
+     struct Student tmp;
+     for (i=0;i<num;i++)
+     {
+         for (j=1;j<num-i;j++)
+         {
+              if (students[j-1].Sum<students[j].Sum)
+              {
+                   tmp=students[j-1];
+                   students[j-1]=students[j];
+                   students[j]=tmp;
+              }
+         }
+     }
+}
+void Student_SortBySubject()
+{
+	int subject;
+	int i,j;
+	cout<<"subject(1,2,3,4)"<<endl;
+	cin>>subject;
+	struct Student tmp;
+	switch(subject)
+	{
+		case 1:
+		//int i,j;
+     //int num=0;
+     //struct Student tmp;
+     for (i=0;i<num;i++)
+     {
+         for (j=1;j<num-i;j++)
+         {
+              if (students[j-1].Mark1<students[j].Mark1)
+              {
+                   tmp=students[j-1];
+                   students[j-1]=students[j];
+                   students[j]=tmp;
+              }
+         }
+     }
+     break;
+     	case 2:
+     		//int i,j;
+     //int num=0;
+     //struct Student tmp;
+     for (i=0;i<num;i++)
+     {
+         for (j=1;j<num-i;j++)
+         {
+              if (students[j-1].Mark2<students[j].Mark2)
+              {
+                   tmp=students[j-1];
+                   students[j-1]=students[j];
+                   students[j]=tmp;
+              }
+         }
+     }
+     break;
+     case 3:
+     	//int i,j;
+     //int num=0;
+     //struct Student tmp;
+     for (i=0;i<num;i++)
+     {
+         for (j=1;j<num-i;j++)
+         {
+              if (students[j-1].Mark3<students[j].Mark3)
+              {
+                   tmp=students[j-1];
+                   students[j-1]=students[j];
+                   students[j]=tmp;
+              }
+         }
+     }
+     break;
+     case 4:
+     //int i,j;
+     //int num=0;
+     //struct Student tmp;
+     for (i=0;i<num;i++)
+     {
+         for (j=1;j<num-i;j++)
+         {
+              if (students[j-1].Mark4<students[j].Mark4)
+              {
+                   tmp=students[j-1];
+                   students[j-1]=students[j];
+                   students[j]=tmp;
+              }
+         }
+     }
+     break;
+	}
+     
+}
+void Student_Display()
+{
+     int i;
+     //int num=0;
+     printf("%10s%10s%8s%8s%8s%8s%8s%16s\n","Student ID","Name","Mark1","Mark2","Mark3","Mark4","Total","Average Mark");
+     cout<<"--------------------------------------------------------------------------------------------"<<endl;
+     for (i=0;i<num;i++)
+     {
+         printf("%10s%10s%8.2f%8.2f%8.2f%8.2f%10.2f%10.2f\n",students[i].ID,students[i].Name,
+              students[i].Mark1,students[i].Mark2,students[i].Mark3,students[i].Mark4,students[i].Sum,students[i].Average);
+     }
+
+} 
+void IO_ReadInfo()
+{
+     FILE *fp;
+     int i;
+     //int num=0;
+     if ((fp=fopen("Database.txt","rb"))==NULL)
+     {
+         cout<<"can't open this file!"<<endl;
+         return; 
+     }
+     if (fread(&num,sizeof(int),1,fp)!=1)
+     {
+         num=-1;
+     }
+     else
+     {
+         for(i=0;i<num;i++)
+         {
+              fread(&students[i],sizeof(struct Student),1,fp);
+         }
+     }
+     fclose(fp);
+}
+void IO_WriteInfo()
+{
+     FILE *fp;
+     int i;
+     //int num=0;
+     if ((fp=fopen("Database.txt","wb"))==NULL)
+     {
+         cout<<"can't open this file!"<<endl;
+         return;
+     }
+     if (fwrite(&num,sizeof(int),1,fp)!=1)
+     {
+         cout<<"write fault!"<<endl;
+     }
+     for (i=0;i<num;i++)
+     {
+         if (fwrite(&students[i],sizeof(struct Student),1,fp)!=1)
+         {
+              cout<<"write fault!"<<endl;
+         }
+     }    
+     fclose(fp);
+}
+main()
+{
+     int choice;
+     IO_ReadInfo();
+     while(1)
+     {
+         cout<<endl<<"------ Student Mark Manage System------"<<endl;
+         cout<<" 1. Add student record"<<endl;
+         cout<<" 2. Modify student record"<<endl;
+         cout<<" 3. Delete student record"<<endl;
+         cout<<" 4. Inquire the student records by name"<<endl;
+         cout<<" 5. Ranking by average"<<endl;
+         cout<<" 6. Ranking by sum"<<endl;
+         cout<<" 7. Sort by (1,2,3,4)"<<endl;
+         cout<<" 8. Display the student record"<<endl;
+         cout<<" 9. System Reset"<<endl;
+         cout<<"10.Exit"<<endl;
+         cout<<"Please choose (1-10):";
+         cin>>choice;
+         getchar();
+         switch(choice)
+         {
+         case 1:
+              Student_Insert();
+              break;
+         case 2:
+              Student_Modify();
+              break;
+         case 3:
+              Student_Delete();
+              break;
+         case 4:
+              Student_Select();
+              break;
+         case 5:
+              Student_SortByAverage();
+              Student_Display();
+              break;
+         case 6:
+         	  Student_SortBySum();
+              Student_Display();
+              break;
+         case 7:
+         	  Student_SortBySubject();
+         	  Student_Display();
+         	  break;
+         case 8:
+         	  Student_Display();
+         	  break;
+         case 9:
+         	  System_Reset();
+         	  break;
+         case 10: 
+              exit(0);
+              break;
+         }
+         IO_WriteInfo();
+     } 
+}
