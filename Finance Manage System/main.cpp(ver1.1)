@@ -1,0 +1,828 @@
+//copy the code to IDE and programming,it can Manage the Finance.
+//the menu language is simplified—Chinese.
+//ver1.1:head节点可正常传入
+
+
+
+
+
+#include"Finance.h"                    //as equal as the"Finance Manage System.h"
+////#ifdef"Auxiliary function.h"
+//#include"Auxiliary function.h"
+//#include"Main processing function.h"
+//#include"main menu.h"
+#include<bits/stdc++.h>
+
+using namespace std;
+//typedef enum _fi_type;
+fi_data *head;					/*财务数据的头节点*/
+
+char menu[] =
+
+"============================================================\n"
+"|家庭财务管理系统                                          |\n" 
+"+----------------------------------------------------------+\n"
+"|收入管理                                                  |\n"
+"|      <1>添加收入                                         |\n"
+"|      <2>查询收入明细                                     |\n"
+"|      <3>删除收入                                         |\n"
+"|      <4>修改收入                                         |\n"
+"|支出管理                                                  |\n"
+"|      <5>添加支出                                         |\n"
+"|      <6>查询支出明细                                     |\n"
+"|      <7>删除支出                                         |\n"
+"|      <8>修改支出                                         |\n"
+"|统计                                                      |\n"
+"|      <9>统计总输入总支出                                 |\n"
+"+----------------------------------------------------------+\n"
+"|  输入<0>退出系统                                         |\n"
+"+----------------------------------------------------------+\n";
+
+
+
+void(*menu_fun[])()=
+
+{
+
+	quit,						/*退出系统*/ 
+
+	add_income,					/*添加收入*/ 
+
+	search_income,				/*查询收入明细*/ 
+
+	delete_income,				/*删除收入*/ 
+
+	update_income,				/*修改收入*/ 
+
+	add_payout,				/*添加支出*/ 
+
+	search_payout,				/*查询支出明细*/ 
+
+	delete_payout,				/*删除支出*/ 
+
+	update_payout,				/*修改支出*/ 
+
+	count_total					/*统计总收入总支出*/ 
+
+			 };			 
+
+			 
+
+			 
+
+int main()
+
+{
+
+	int selected = 0;
+
+	
+
+	initialize();
+
+	
+
+	while(selected >=0 && selected <=MENU_COUNT)
+
+	{
+
+		system("cls");
+
+		cout<<(menu);
+
+		cout<<">请选择要进行的操作0-"<<MENU_COUNT;
+
+		if((scanf("%d",&selected) != 1)  || selected < 0 || selected > MENU_COUNT)
+
+		{
+
+			cout<<">输入错误!请选择[ 0 -"<<MENU_COUNT<<"]之间的数字!按任意键重试...";
+
+			fflush(stdin);
+
+			getchar(); 
+
+		 } 
+
+		 else
+
+		 {
+
+		 	menu_fun[selected]();
+
+		 }
+
+		 selected = 0;
+
+	 } 
+
+ } 
+ #include<bits/stdc++.h> 
+//#include"Main processing funtion.cpp"
+//#include"CWGL.h"
+////主菜单对应处理函数
+
+//(1).添加收入
+
+//函数名称:add_income
+
+//函数功能:用户在主菜单选择1的时候调用此函数,用来添加收入信息的操作.
+
+//处理流程:首先建立单链表.调用 input_info()函数,提示用户输入收入信息,并将输入的信息存储到单链表中,输入完成后返回到主菜单界面. 
+
+void add_income()
+
+{
+
+	fi_data *p = (fi_data*)malloc(sizeof(fi_data));
+
+	memset(p,0,sizeof(fi_data));
+
+	p->next =NULL;
+
+	input_info(&(p->info));
+
+	p->info.type =income;
+
+	if(head == NULL)
+
+	{
+
+		head = p; 
+
+	}
+
+	else
+
+	{
+
+		get_last(head)->next = p;
+
+	 } 
+
+} 
+
+//(2)查询收入明细
+
+//函数名称：search_income
+
+//函数功能：用户在主菜单中选择2的时候调用此函数，用来查询收入明细的操作。函数中调用search_data()来完成收入明细的查询. 
+
+void search_income()
+
+{
+
+	search_data(income);
+
+}
+
+//(3)删除收入
+
+//函数名称：delete_income
+
+//函数功能：用户在主菜单中选择3的时候调用此函数，用来删除收入信息的操作。在函数中调用delete_data()来完成收入信息的删除. 
+
+void delete_income()
+
+{
+
+	delete_data(income);
+
+}
+
+//(4)修改收入
+
+//函数名称：updata_income()
+
+//函数功能：用户在主菜单选择4的时候调用此函数，用来修改收入信息的操作。函数中调用update_data()来完成收入信息的修改. 
+
+void update_income()
+
+{
+
+	update_data(income);
+
+}
+
+//(5)添加支出
+
+//函数名称：add_payout
+
+//函数功能：用户在主菜单选择5的时候调用此函数，用来添加支出信息的操作；
+
+//处理流程：首先建立单链表，调用input_info()函数提示用户输入支出信息，并将输入的信息存储到单链表中，输入完成后返回到主菜单界面. 
+
+void add_payout()
+
+{
+
+	fi_data *p = (fi_data*)malloc(sizeof(fi_data));
+
+	memset(p,0,sizeof(fi_data));
+
+	input_info(&(p->info));
+
+	p->info.type =payout;
+
+	if( head == NULL )
+
+	{
+
+		head = p;
+
+	 } 
+
+	 else
+
+	 {
+
+	 	get_last(head) ->next =p;
+
+	 }
+
+ } 
+
+// (6)查询支出明细
+
+// 函数名称：search_payout
+
+// 函数功能：用户在主菜单选择6的hi和调用此函数，用来查询支出明细的操作。函数中调用search_data()来完成支出明细的查询。
+
+void search_payout()
+
+{
+
+	search_data(payout);
+
+ } 
+
+//(7)删除支出
+
+//函数名称:delete_payout 
+
+//函数名称:用户在主菜单选择7的时候调用此函数,用来删除支出信息的操作.函数中调用delete_data()来完成支出信息的删除. 
+
+void delete_payout()
+
+{
+
+	delete_data(payout);
+
+ } 
+
+// (8)修改支出
+
+// 函数名称：update_payout
+
+// 函数功能：用户在主菜单选择8的时候调用此函数，用来修改支出信息的操作。函数调用update_data()来完成支出信息的修改. 
+
+void update_payout()
+
+{
+
+	update_data(payout);
+
+}
+
+//(9)统计总收入总支出
+
+//函数名称：count_total
+
+//函数功能：用户在主菜单选择9的时候进行统计的操作，在单链表中，计算收入和支出的总和，将两者相减得到家庭收入的结余，并按一定的格式显示出来. 
+
+void count_total()
+
+{
+
+	float total_income = 0.0;
+
+	float total_payout = 0.0;
+
+	fi_data *p = head;
+
+	
+
+	while(p != NULL)
+
+	{
+
+		if(p->info.type ==income)
+
+		{
+
+			total_income+=p->info.money;
+
+		}
+
+		else
+
+		{
+
+			total_payout += p->info.money;
+
+		}
+
+		p =p->next;
+
+	}
+
+	
+
+	cout<<"+-----------------+-----------------+-----------------+"<<endl;
+
+	cout<<"|	合计收入	|		合计支出	|		结余 	 |<<"<<endl;
+
+	cout<<"+-----------------+-----------------+-----------------+"<<endl;
+
+	cout<<total_income<<"			"<<total_payout<<"			"<<total_income-total_payout<<endl;
+
+	cout<<"+-----------------+-----------------+-----------------+"<<endl;
+
+	cout<<">按任意键返回主菜单...";
+
+	fflush(stdin);
+
+	getchar(); 
+
+}
+
+//(10)退出系统
+
+//函数名称：quit
+
+//函数功能：将单链表中的数据释放，退出系统. 
+
+void quit()
+
+{
+
+	save_to_file();
+
+	clear_data();
+
+	exit(0);
+
+}
+//(1)查询处理
+//函数名称；search_data
+//函数功能；用于处理收入和支出（在调用过程中有参数决定）的查询操作。
+//处理流程；
+//1.提示用户按照指定格式输入要查询的年月，如果用户输入错误，则给出提示信息;如果用户输入正确，则在单链表中查找该年月的收入信息。
+//2.如果查找成果能够，判断查询结果个数是否小于 9，调用函数 show_info()显示找到的收入信息;如果大于9，按空格进行翻页操作。
+//3.如果没有找到任何信息，系统给出提示信息。
+//4.提示用户是否继续查询，如果用户输入“Y”或“y”，则再次进行查询操作;否则，返回主菜单界面。
+void search_data(fi_type type)
+{
+	int year = 0;
+	int month = 0;
+	fi_data *p =NULL;
+	fi_data *result[9] ={NULL};
+	int count = 0;
+	char input = ' ';
+	
+	while(1)
+	{
+		printf(">请输入要查询的年月（例如；2009/1）");
+		if(scanf("%d/%d",&year,&month) !=2)
+		{
+			printf(">输入错误。\n");
+		}
+		else
+		{
+			p = head;
+			count = 0;
+			memset(result, 0, sizeof(fi_data*));
+			while(p != NULL)
+			{
+				if(p->info.year == year
+				   && p->info.month == month
+				   && p->info.type == type)
+			{
+				if (count < 9)
+				{
+					result[count] = p;
+					count++; 
+				}
+				else
+				{
+					show_info(result, count);
+					printf(">输入空格并回车翻页。其他键退出。");
+					fflush(stdin);
+					input = getchar();
+					if (input ==' ')
+					{
+					                          	memset(result, 0, sizeof(fi_data*));
+					                          	count = 0;
+					                          	result[count] = p;
+					                          	count++;
+					} 
+					else
+					{
+						break;
+					}
+				}
+				   }
+				   p = p->next;
+			}
+			if (count != 0)
+			{
+				show_info(result, count);
+			}
+			else
+			{
+				printf(">没有找到数据。\n");
+			}
+			printf(">继续查找其他数据? (y or n)");
+			fflush(stdin);
+			input = getchar();
+			if (input == 'y' || input == 'Y')
+			{
+				continue;
+			}
+			else
+			{
+				break;
+			}
+		}
+	}
+ } 
+ //(2)删除处理
+ //函数名称；delete_data
+ //函数功能；用于处理收入与支出（在调用过程中由参数决定）的删除操作。
+ //处理流程；
+ //1.提示用户输入要删除收入的年月，然后根据用户输入的年月信息在单链表中查找相关信息。
+ //2.如果查找成功，且查找到的数据小于9，则直接调用 show_info()函数显示查找到的收入信息;如果查到的数据大于9条信息，则按空格键翻页。
+ //3.最后提示用户输入要删除的收入信息的序号，完成删除的操作。
+ //4.如果查找不成功，则给出相应的提示信息。
+ //5.提示用户是否继续删除的操作，如果用户输入“Y”或“y”，则在进行查找操作;否则，返回主菜单界面。
+ void delete_data(fi_type type)
+ {
+ 	int year = 0;
+ 	int month = 0;
+ 	fi_data *p =NULL;
+ 	fi_data *pre = NULL;
+ 	fi_data *result[9] = {NULL};
+ 	int count = 0;
+ 	char input = ' ';
+ 	int i = 0;
+ 	
+ 	while(1)
+	 {
+	 	printf(">请输入要查询的年月（例如；2009/1)");
+	 	if (scanf("%d/%d",&year, &month) != 2)
+	 	{
+	 		printf(">输入错误。\n");
+		 }
+		 else
+		 {
+		 	p = head;
+		 	count = 0;
+		 	memset(result, 0, sizeof(fi_data*));
+		 	while(p != NULL)
+		 	{
+		 		if (p->info.year == year
+				    && p->info.month == month
+					&& p->info.type == type)
+				{
+					if (count < 9)
+					{
+					     result[count] = p;
+						 count++;	
+					}
+				else
+				{
+					show_info(result, count);
+					printf(">输入空格并回车翻页。输入对应的序号删除。其他键退出。"); 
+					fflush(stdin);
+					input = getchar();
+					if (input == ' ')
+					{
+						memset(result, 0, sizeof(fi_data*));
+						count = 0;
+						result[count] = p;
+						count++;
+					 }
+				     else if (input >='1' && input <= 48 + count)
+				     {
+				     	i = input - 49;
+				     	pre = get_previous(result[i]);
+				     	if (pre == NULL)
+						 {
+				     		head = head->next;
+						 }
+						 else
+						 {
+						 	pre->next = result[i]->next;
+						 }
+						 free(result[i]);
+						 for (; i < count - 1; i++)
+						 {
+						 	result[i] = result[i+1];
+						 }
+						 result[i] = p;
+						 printf(">删除成功。\n");
+					 }
+					 else
+					 {
+					 	break;
+					 }
+				}
+					}
+					p =p->next;
+			 }
+			 if (count != 0)
+			 {
+			 	show_info(result, count);
+			 	printf(">输入对应的序号删除。其他键退出。");
+				fflush(stdin);
+				input = getchar();
+				if (input >= '1' && input <= 48 +count)
+				{
+					i= input - 49;
+					pre = get_previous(result[i]);
+					if (pre == NULL)
+					{
+						head = head->next;
+					}
+					else
+					{
+						pre->next = result[i]->next;
+					}
+					free(result[i]);
+					for (; i<count - 1;i++)
+					{
+						result[i] = result[i++];
+					}
+					result[i] = NULL;
+					count--;
+					printf(">删除成功。\n");
+				} 
+			 }
+			 else
+			 {
+			 	printf(">没有找到数据。\n");
+			 }
+			 printf(">继续查找其他数据？（y or n)");
+			 fflush(stdin);
+			 input = getchar();
+			 if (input == 'y' || input =='Y')
+			 {
+			 	continue;
+			  } 
+			  else
+			  {
+			  	break;
+			  }
+		 }
+	 }
+  } 
+//(3)更新处理
+//函数名称；update_data
+//函数功能；用于处理收入喝支出（在调用过程中由参数决定）的更新操作。
+//处理流程；
+//1.首先提示用户输入要更新收入或支出的年月，然后根据用户输入的年月信息在单链表中查找相关信息。
+//2.如果查找成功，且查找到的数据小于9，则直接调用 show_info()函数显示查找到的收入或支出信息;如果大于9，则按空格键翻页。
+//3,。最后提示用户输入要更新的收入或支出信息的序号，调用input_info()函数输入更新的收入或支出信息，完成更新操作。
+//4.如果查找不成功，则给出相应的提示信息。
+//5.提示用户是否继续更新操作，如果用户输入“Y”或“y”，则再次进行查询操作;否则，返回主菜单界面。
+void update_data(fi_type type)
+{
+	int year = 0;
+	int month = 0;
+	fi_data *p = NULL;
+	fi_data *pre = NULL;
+	fi_data *result[9] ={NULL};
+	int count = 0;
+	char input = ' ';
+	int i=0;
+	
+	while(1){
+		printf(">请输入要查询的年月（例如；2001/1）");
+		if (scanf("%d/%d",&year, &month) !=2)
+		{
+			printf(">输入错误。\n");
+		}
+		else
+		{
+			p = head;
+			count = 0;
+			memset(result, 0, sizeof(fi_data*));
+			while(p != NULL)
+			{
+				if (p->info.year == year
+				&& p->info.month == month
+				&& p->info.type == type)
+				{
+					if (count < 9)
+					{
+						result[count] = p;
+						count++;
+					}
+					else
+					{
+						show_info(result, count);
+						printf(">输入空格并回车翻页。输入对应的序号修改。其他键退出。");
+						fflush(stdin);
+						input = getchar();
+						if ( input == ' ')
+						{
+							memset(result, 0, sizeof(fi_data*));
+							count = 0;
+							result[count] = p;
+							count++;
+						 } 
+						 else if (input >= '1' && input <= 48 + count)
+						 {
+						 	i= input -49;
+						 	input_info(&(result[i]->info));
+						 	printf(">修改成功。\n");
+						 	p = get_previous(p);
+						 }
+						 else
+						 {
+						 	break;
+						 }
+					}
+				}
+				p = p->next;
+			}
+			if (count != 0)
+			{
+				show_info(result, count);
+				printf(">输入对应的序号修改。其他键退出");
+				fflush(stdin);
+				input = getchar();
+				if (input >= '1' && input <= 48 + count)
+				{
+					i= input - 49;
+					input_info(&(result[i]->info));
+					show_info(result, count);
+					printf(">修改成功。\n");
+				 } 
+			}
+			else
+			{
+				printf(">没有找到数据。\n");
+			}
+			printf(">继续查找其他数据？（y or n）");
+			fflush(stdin);
+			input = getchar();
+			if (input == 'y' || input == 'Y')
+			{
+				continue;
+			}
+			else
+			{
+				break;
+			}
+		}
+	}
+ } 
+ //(1)系统初始化
+//函数名称： initialize
+//函数功能；系统初始化操作，包括数据文件和单链表的初始化。
+void initialize()
+{
+	FILE *fp = NULL;
+	fi_data *p = NULL;
+	fi_data *last = NULL;
+	int count = 0;
+	
+	/*判断数据文件是否存在，如果不存在则创建一个文件*/
+	fp = fopen(DATA_FILE, "rb");
+	if (fp == NULL)
+	{
+		fp = fopen(DATA_FILE, "w");/*创建文件*/
+		fclose(fp);
+		return; 
+	 }
+	 
+	 p = (fi_data*)malloc(sizeof(fi_data));
+	 memset(p, 0, sizeof(fi_data));
+	 p->next = NULL;
+	 
+	 while(fread(&(p->info),sizeof(fi_info), 1, fp) == 1)
+	 {
+	 	if (head == NULL)/*链表为空*/
+		 {
+		 	head = p;/*将头节点指向p*/ 
+		  }
+		  else
+		  {
+		  	last = get_last(head); /*头节点不为空时，在链表中找到最后一个*/
+			last->next = p;  /*将b连到最后一个节点之后*/ 
+		  }
+		  count++;
+		  fseek(fp, count *sizeof(fi_info), SEEK_SET); /*将文件指针指到下一个*/
+		  p = (fi_data*)malloc(sizeof(fi_data));
+		  memset(p, 0, sizeof(fi_data));
+		  p->next = NULL;
+	  }
+	  free(p);
+	  p = NULL;
+	  fclose(fp);
+ }
+ //(2)将财务数据保存到文件
+ //函数名称：save_to_file
+ //函数功能：将单链表中的数据保存到文件
+ void save_to_file()
+ {
+ 	FILE *fp = fopen(DATA_FILE, "wb");
+ 	fi_data *p = head;
+	 
+	 while(p != NULL)
+	 {
+	 	fwrite(&(p->info),sizeof(fi_info), 1, fp);
+	 	fseek(fp, 0, SEEK_END);
+	 	p = p->next;
+	   }  
+	   fclose(fp);
+	 } 
+//(3)清空链表中的数据
+//函数名称：clear_data
+//函数功能：退出系统时调用该函数，清空单链表中的数据
+void clear_data()
+{
+	fi_data *p = NULL;
+	
+	while (head != NULL)/*链表不为空*/
+	{
+		if (head->next!=NULL)/*如果链表中有2条以上的数据*/
+		{
+			p = head;
+			head = head->next;/*头节点向后移动一位*/
+			free(p);/*释放原来的头节点*/
+			p = NULL; 
+		 }
+		 else/*清楚链表中最后一个节点*/
+		 {
+		 	free(head);
+		 	head = NULL;
+		  }
+	 }
+ }
+ //(4)去最后一个节点
+ //函数名称：get_last
+ //函数功能：取得收入或支出数据链表的最后一个节点。
+ fi_data *get_last(fi_data *head)
+ {
+ 	fi_data *p =head;
+ 	if (p == NULL)
+ 	{
+ 		return p;
+	 }
+	 while((p != NULL) && (p->next != NULL))
+	 {
+	 	p= p->next;
+	 }
+	 return p;
+  }
+//(5)取参数p的前一个节点
+//函数名称：get_previous
+//函数功能：取得收入或支出数据节点p的前一个节点。
+fi_data *get_previous(fi_data *p)
+{
+	fi_data *previous = head;
+	while(previous != NULL)
+	{
+		if (previous->next == p)
+		{
+			break;
+		}
+		previous = previous->next;
+	}
+	return previous;
+ }
+ //(6)输入收入或支出数据信息
+ //函数名称：input_info
+ //函数功能：提示用户按指定格式输入收入或支出信息
+ void input_info(fi_info *info)
+ {
+ 	printf(">请输入年月 （YYYY/M):");
+ 	scanf("%d/%d", &(info->year), &(info->month));
+ 	
+ 	printf(">请输入家庭成员姓名 （最大长度为 %d）:", MAX_NAME - 1);
+ 	scanf("%s", info->name);
+ 	
+ 	printf(">请输入金额：");
+	scanf("%f", &(info->money));
+	
+	printf(">请输入备注 （最大长度为 %d):", MAX_DETAIL -1);
+	scanf("%s", info->detail); 
+  }
+//(7)显示收入或支出数据
+//函数名称：show_info
+//函数功能：按指定格式显示收入或支出信息
+void show_info(fi_data* p[], int count)
+{
+	int i = 0;
+	
+	printf("+---+---------+------+------------+------------+----------------------+\n");
+	printf("|No.|  年-月 |  类型  |  姓名  |  金额  |   备注   |\n");
+	printf("+---+---------+------+------------+------------+----------------------+\n");
+	for (i = 0; i < count; i++ )
+	{
+	printf("|%3d| %4d-%02d | %4s | %-10s | %10.2f | %-20s |\n",i+1,p[i]->info.year, p[i]->info.month,p[i]->info.type == income ? "收入": "支出",p[i]->info.name,p[i]->info.money,p[i]->info.detail);		
+	printf("+---+---------+------+------------+------------+-----------------------+\n");
+	}
+}
